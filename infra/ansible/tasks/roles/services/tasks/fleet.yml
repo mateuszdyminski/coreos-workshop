@@ -21,16 +21,16 @@
     - restart-all
     - as
 
-- name: Fleetctl - Submit all instances
-  shell: fleetctl submit /home/core/services/instances/*
-  tags:
-    - update
-    - restart-all
-    - lb
+# - name: Fleetctl - Submit all instances
+#   shell: fleetctl submit /home/core/services/instances/*
+#   tags:
+#     - update
+#     - restart-all
+#     - lb
 
-- name: Fleetctl - Start all instances
-  shell: fleetctl start /home/core/services/instances/*
-  tags:
-    - update
-    - restart-all
-    - lb
+# - name: Fleetctl - Start all instances
+#   shell: fleetctl start /home/core/services/instances/*
+#   tags:
+#     - update
+#     - restart-all
+#     - lb

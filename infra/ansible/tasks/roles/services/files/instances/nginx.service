@@ -24,8 +24,8 @@ EnvironmentFile=/etc/environment
 ## Directives with "=-" are allowed to fail without consequence
 ExecStartPre=-/usr/bin/docker kill nginx_lb
 ExecStartPre=-/usr/bin/docker rm nginx_lb
-ExecStartPre=/usr/bin/docker pull quay.io/mateuszdyminski/as-lb:latest
-ExecStart=/usr/bin/docker run -e "HOST_IP=${COREOS_PRIVATE_IPV4}" --name nginx_lb -p 80:80 quay.io/mateuszdyminski/as-lb:latest /usr/local/bin/confd-watch
+ExecStartPre=/usr/bin/docker pull mateuszdyminski/as-lb:latest
+ExecStart=/usr/bin/docker run -e "HOST_IP=${COREOS_PRIVATE_IPV4}" --name nginx_lb -p 80:80 mateuszdyminski/as-lb:latest /usr/local/bin/confd-watch
 
 ExecStop=/usr/bin/docker stop nginx_lb
 

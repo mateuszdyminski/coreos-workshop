@@ -26,12 +26,12 @@ EnvironmentFile=/etc/environment
 ## Directives with "=-" are allowed to fail without consequence
 ExecStartPre=-/usr/bin/docker kill as.%i
 ExecStartPre=-/usr/bin/docker rm as.%i
-ExecStartPre=/usr/bin/docker pull quay.io/mateuszdyminski/as
-ExecStart=/usr/bin/docker run -e "HOST=%H" -e "PORT=%i" --name as.%i -p ${COREOS_PRIVATE_IPV4}:%i:%i quay.io/mateuszdyminski/as
+ExecStartPre=/usr/bin/docker pull mateuszdyminski/as
+ExecStart=/usr/bin/docker run -e "HOST=%H" -e "PORT=%i" --name as.%i -p ${COREOS_PRIVATE_IPV4}:%i:%i mateuszdyminski/as
 
 # Stop
 ExecStop=/usr/bin/docker stop as.%i
 
 [X-Fleet]
 # Don't schedule on the same machine as other Web instances
-Conflicts=as@*.service
+# Conflicts=as@*.service

@@ -40,6 +40,7 @@ CoreOS overview:
 
 
 - flannel
+	- overview
 - rocket
 	- overview
 	- example: sudo rkt --insecure-skip-verify run docker://quay.io/mateuszdyminski/hellorkt
