@@ -1,0 +1,48 @@
+- name: Remove old files if exists symlinks
+  command: rm /home/core/services/instances -rf
+  tags:
+    - update
+    - as
+    - lb
+
+- name: Create directory for template instances
+  command: mkdir /home/core/services/instances -p
+  ignore_errors: True
+  tags:
+    - update
+    - as
+    - lb
+
+- name: Create directory for templates
+  command: mkdir /home/core/services/templates -p
+  ignore_errors: True
+  tags:
+    - update
+    - as
+    - lb
+
+- name: Copy templates service files
+  copy: src=templates/ dest=/home/core/services/templates/
+  tags:
+    - update
+    - as
+
+- name: Copy instances service files
+  copy: src=instances/ dest=/home/core/services/instances/
+  tags:
+    - update
+    - lb
+
+- name: Create new links for AS instances
+  command: ln -s /home/core/services/templates/as@.service /home/core/services/instances/as@{{item}}.service
+  with_items: "{{as}}"
+  tags:
+    - update
+    - as
+
+- name: Create new links for AS discovery instances
+  command: ln -s /home/core/services/templates/as-discovery@.service /home/core/services/instances/as-discovery@{{item}}.service
+  with_items: "{{as}}"
+  tags:
+    - update
+    - as

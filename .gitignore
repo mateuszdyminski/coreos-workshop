@@ -1,0 +1,7 @@
+.*
+!/.gitignore
+
+pkg/
+code.google.com/
+github.com/
+.vagrant/

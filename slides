@@ -1,0 +1,49 @@
+Presteps
+	Initialization
+	https://discovery.etcd.io/new
+
+	vagrant
+	ansible(optional)
+
+
+Setup SSH
+	
+	Steps:
+	vagrant ssh-config --host coreos-vagrant >> ~/.ssh/config
+	vagrant ssh-config --host coreos-vagrant | sed -n "s/IdentityFile//gp" | xargs ssh-add
+
+	Test:
+	ssh -A coreos-vagrant 
+
+Ansible:
+
+	cd infra/ansible
+	ansible-playbook -i hosts/vagrant-inventory tasks/roles/bootstrap.yml
+	ansible -i hosts/vagrant-inventory coreos -m ping
+	ansible-playbook -i hosts/vagrant-inventory tasks/roles/services.yml
+	ansible-playbook -i hosts/vagrant-inventory tasks/roles/services.yml --tags=destroy
+
+
+CoreOS overview:
+- etcd
+	- overview
+	- architecture
+	- set/watch
+	- raft: http://thesecretlivesofdata.com/raft/
+- fleet
+	- list-machines
+	- ssh
+	- list-units
+	- list-unit-files
+	- journal
+
+
+
+- flannel
+- rocket
+	- overview
+	- example: sudo rkt --insecure-skip-verify run docker://quay.io/mateuszdyminski/hellorkt
+- locksmith
+	- overview
+- cloud-init
+	- overview

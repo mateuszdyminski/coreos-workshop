@@ -1,0 +1,37 @@
+[Unit]
+Description=Web server service on port %i
+
+# Requirements
+Requires=etcd.service
+Requires=docker.service
+Requires=as-discovery@%i.service
+
+# Dependency ordering
+After=etcd.service
+After=docker.service
+Before=as-discovery@%i.service
+
+[Service]
+# Let processes take awhile to start up (for first run Docker containers)
+TimeoutStartSec=0
+
+# Change killmode from "control-group" to "none" to let Docker remove
+# work correctly.
+KillMode=none
+
+# Get CoreOS environmental variables
+EnvironmentFile=/etc/environment
+
+# Pre-start and Start
+## Directives with "=-" are allowed to fail without consequence
+ExecStartPre=-/usr/bin/docker kill as.%i
+ExecStartPre=-/usr/bin/docker rm as.%i
+ExecStartPre=/usr/bin/docker pull quay.io/mateuszdyminski/as
+ExecStart=/usr/bin/docker run -e "HOST=%H" -e "PORT=%i" --name as.%i -p ${COREOS_PRIVATE_IPV4}:%i:%i quay.io/mateuszdyminski/as
+
+# Stop
+ExecStop=/usr/bin/docker stop as.%i
+
+[X-Fleet]
+# Don't schedule on the same machine as other Web instances
+Conflicts=as@*.service
